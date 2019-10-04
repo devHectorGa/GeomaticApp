@@ -5,8 +5,6 @@ griego “Geo” tierra, “Matica” informática y “App” aplicación infor
 
 ## Construido con 🛠️
 
-_Menciona las herramientas que utilizaste para crear tu proyecto_
-
 * [Node.Js](https://nodejs.org/es/) - Entorno de ejecución
 * [React Native](https://facebook.github.io/react-native/) - Aplicaciones Nativas usando React para Android y iOS.
 
