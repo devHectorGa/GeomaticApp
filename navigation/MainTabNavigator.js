@@ -6,6 +6,7 @@ import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+import MapScreen from '../screens/MapScreen'
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -20,14 +21,14 @@ const HomeStack = createStackNavigator(
 );
 
 HomeStack.navigationOptions = {
-  tabBarLabel: 'Home',
+  tabBarLabel: 'Inicio',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
       name={
         Platform.OS === 'ios'
-          ? `ios-information-circle${focused ? '' : '-outline'}`
-          : 'md-information-circle'
+          ? `ios-home${focused ? '' : '-outline'}`
+          : 'md-home'
       }
     />
   ),
@@ -67,8 +68,20 @@ SettingsStack.navigationOptions = {
 
 SettingsStack.path = '';
 
+const MapStack = createStackNavigator(
+  { Map: MapScreen },
+  config
+)
+MapStack.navigationOptions = {
+  tabBarLabel: "Map",
+  tabBarIcon:({focused}) =>(
+    <TabBarIcon focused={focused} name={Platform.os === 'ios' ? 'ios-map' :'md-map'} />
+  )
+}
+
 const tabNavigator = createBottomTabNavigator({
   HomeStack,
+  MapStack,
   LinksStack,
   SettingsStack,
 });
