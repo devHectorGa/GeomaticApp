@@ -1,4 +1,4 @@
-import { db, firebaseAuth } from './firebase'
+import firebase, { db, firebaseAuth } from './firebase'
 
 saveUser = user => (
   db.collection('users').doc(user.uid).set({
@@ -10,19 +10,24 @@ saveUser = user => (
   }).then( () => user )
 )
 
-login = (email, password) => firebaseAuth().signInWithEmailAndPassword(email, password)
+login = (email, password) => firebaseAuth.signInWithEmailAndPassword(email, password)
 
-userRegister = (email, password) => firebaseAuth().createUserWithEmailAndPAssword(email, password)
+userRegister = (email, password) => firebaseAuth.createUserWithEmailAndPAssword(email, password)
   .then(credentials => saveUser(credentials.user))
   .catch( err => err.message )
 
-resetPassword = email => firebaseAuth().sendPasswordResetEmail(email)
+resetPassword = email => firebaseAuth.sendPasswordResetEmail(email)
   .then( ()=> true )
   .catch( ()=> false )
+
+logout = () => firebase.signOut()
+  .then( ()=>true )
+  .catch( ()=>false )
 
 const handleUser = {
   saveUser,
   login,
+  logout,
   userRegister,
   resetPassword
 }

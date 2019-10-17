@@ -1,16 +1,15 @@
-import React, { Component, useState } from 'react'
-import { firebaseAuth } from '../components/backend'
+import React, { Component } from 'react'
+import { logout } from '../components/backend'
 import {
   ActivityIndicator,
   AsyncStorage,
   StatusBar,
   StyleSheet,
+  Text,
   View,
 } from 'react-native'
 
-const [isUserLogin, setUserLogin] = useState(false)
-
-class AuthLoadingScreen extends Components {
+class AuthLoadingScreen extends Component {
   constructor(props){
     super(props)
     this.state = {
@@ -18,34 +17,30 @@ class AuthLoadingScreen extends Components {
     }
   }
   componentDidMount(){
-    this.removeListenerAuth = firebaseAuth().onAuthStateChanged( user =>{
-      setUserLogin(user)
-      this.setState({ isUserLogin: user })
-    })
+    this._bootstrapAsync()
   }
 
-  componentWillUnmount(){
-    this.removeListenerAuth();
-  }
-
-  _bootstrapAsync = async () => {    
-    this.props.navigation.navigate(userToken ? 'App' : 'Auth')
+  _bootstrapAsync = async () => {
+    const userToken = await AsyncStorage.getItem('userLogin');
+    this.props.navigation.navigate(userToken ? 'Home' : 'Auth')
   }
 
   render(){
-    if(this.state.isUserLogin){
-      return(
-        <View>
-          <Text>Esta logueado</Text>
-        </View>
-      )
-    }else{
-      return(
-        <View>
-          <Text>No esta logueado</Text>
-        </View>
-      )
-    }
+    return(
+      <View>
+        <ActivityIndicator />
+        <StatusBar barStyle="default" />
+      </View>
+    )
   }
-
 }
+
+const style = StyleSheet.create({
+  container: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center"
+  }
+})
+
+export default AuthLoadingScreen
